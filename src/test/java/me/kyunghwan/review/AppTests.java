@@ -1,4 +1,4 @@
-package me.kyunghwan.project.review;
+package me.kyunghwan.review;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
