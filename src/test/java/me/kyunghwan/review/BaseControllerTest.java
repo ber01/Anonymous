@@ -31,6 +31,8 @@ public class BaseControllerTest {
 
     @BeforeEach
     void init() {
+        accountRepository.deleteAll();
+        genreRepository.deleteAll();
         for (String name : names) {
             genreRepository.save(Genre.builder()
                     .name(name)
