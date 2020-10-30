@@ -15,6 +15,7 @@ import java.util.Set;
 public class Account {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ACCOUNT_ID")
     private Long idx;
 
     @Column(nullable = false, unique = true)
@@ -30,11 +31,7 @@ public class Account {
     @Column(nullable = false)
     private Boolean isVerified;
 
-    @ManyToMany
-    @JoinTable(name = "account_genre",
-            joinColumns = @JoinColumn(name = "account_idx"),
-            inverseJoinColumns = @JoinColumn(name = "genre_idx")
-    )
+    @OneToMany
     private final Set<Genre> genres = new HashSet<>();
 
 }
