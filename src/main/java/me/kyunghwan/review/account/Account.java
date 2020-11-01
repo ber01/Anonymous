@@ -1,7 +1,7 @@
 package me.kyunghwan.review.account;
 
 import lombok.*;
-import me.kyunghwan.review.movie.Genre;
+import me.kyunghwan.review.mygenre.MyGenre;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -15,6 +15,7 @@ import java.util.Set;
 public class Account {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ACCOUNT_ID")
     private Long idx;
 
     @Column(nullable = false, unique = true)
@@ -30,11 +31,8 @@ public class Account {
     @Column(nullable = false)
     private Boolean isVerified;
 
-    @ManyToMany
-    @JoinTable(name = "account_genre",
-            joinColumns = @JoinColumn(name = "account_idx"),
-            inverseJoinColumns = @JoinColumn(name = "genre_idx")
-    )
-    private final Set<Genre> genres = new HashSet<>();
+    // @Builder.Default
+    @OneToMany(mappedBy = "account", fetch = FetchType.EAGER)
+    private final Set<MyGenre> myGenres = new HashSet<>();
 
 }
