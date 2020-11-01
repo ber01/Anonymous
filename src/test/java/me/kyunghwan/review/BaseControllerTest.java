@@ -12,6 +12,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
@@ -20,6 +21,7 @@ import org.springframework.test.web.servlet.MockMvc;
 @SpringBootTest
 @ActiveProfiles("dev")
 @AutoConfigureMockMvc
+@DirtiesContext
 public class BaseControllerTest {
 
     @Autowired
@@ -60,10 +62,10 @@ public class BaseControllerTest {
         String[] str = {"공포", "SF"};
         for (String s : str) {
             Genre genre = genreRepository.findByName(s);
-            myGenreRepository.save(MyGenre.builder()
+            account.add(myGenreRepository.save(MyGenre.builder()
                     .account(account)
                     .genre(genre)
-                    .build());
+                    .build()));
         }
     }
 
