@@ -1,9 +1,18 @@
-package me.kyunghwan.review.account;
+package me.kyunghwan.review.mygenre;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import me.kyunghwan.review.account.Account;
 import me.kyunghwan.review.movie.Genre;
 
 import javax.persistence.*;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@Getter
 @Entity
 public class MyGenre {
 

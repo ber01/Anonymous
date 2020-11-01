@@ -1,7 +1,7 @@
 package me.kyunghwan.review.account;
 
 import lombok.*;
-import me.kyunghwan.review.movie.Genre;
+import me.kyunghwan.review.mygenre.MyGenre;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -31,7 +31,8 @@ public class Account {
     @Column(nullable = false)
     private Boolean isVerified;
 
-    @OneToMany
-    private final Set<Genre> genres = new HashSet<>();
+    // @Builder.Default
+    @OneToMany(mappedBy = "account", fetch = FetchType.EAGER)
+    private final Set<MyGenre> myGenres = new HashSet<>();
 
 }

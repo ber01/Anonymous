@@ -24,7 +24,7 @@ class AccountTest {
         assertThat(account.getPassword()).isEqualTo(password);
         assertThat(account.getLoginType()).isEqualTo(LoginType.CREDENTIAL);
         assertThat(account.getIsVerified()).isFalse();
-        assertThat(account.getGenres()).isEmpty();
+        assertThat(account.getMyGenres()).isEmpty();
     }
 
 }
