@@ -32,7 +32,11 @@ public class Account {
     private Boolean isVerified;
 
     // @Builder.Default
-    @OneToMany(mappedBy = "account", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "account")
     private final Set<MyGenre> myGenres = new HashSet<>();
+
+    public void add(MyGenre myGenre) {
+        getMyGenres().add(myGenre);
+    }
 
 }
