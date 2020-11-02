@@ -36,7 +36,7 @@ public class Account {
     private final Set<MyGenre> myGenres = new HashSet<>();
 
     public void add(MyGenre myGenre) {
-        getMyGenres().add(myGenre);
+        this.myGenres.add(myGenre);
     }
 
 }

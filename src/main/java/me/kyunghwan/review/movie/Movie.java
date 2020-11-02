@@ -40,4 +40,8 @@ public class Movie {
     @OneToMany(mappedBy = "movie")
     private final Set<MovieGenre> movieGenres = new HashSet<>();
 
+    public void add(MovieGenre movieGenre) {
+        this.movieGenres.add(movieGenre);
+    }
+
 }
