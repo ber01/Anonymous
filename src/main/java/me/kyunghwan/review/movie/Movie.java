@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import me.kyunghwan.review.moviegenre.MovieGenre;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,16 +16,28 @@ import java.util.Set;
 @Builder
 @Getter
 @Entity
-public class Genre {
+public class Movie {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "GENRE_ID")
+    @Column(name = "MOVIE_ID")
     private Long idx;
 
-    @Column(nullable = false, unique = true)
+    @Column(unique = true)
+    private String code;
+
+    @Column(unique = true)
     private String name;
 
-    @OneToMany(mappedBy = "genre")
+    @Column
+    private Integer runningTime;
+
+    @Column
+    private LocalDate openingDate;
+
+    @Column
+    private String imageUrl;
+
+    @OneToMany(mappedBy = "movie")
     private final Set<MovieGenre> movieGenres = new HashSet<>();
 
     public void add(MovieGenre movieGenre) {
