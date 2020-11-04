@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -23,13 +24,8 @@ public class MovieService {
     private final MovieGenreRepository movieGenreRepository;
     private final Gson gson;
 
-    public MovieInfo[] readJson() {
-        Reader reader = null;
-        try {
-            reader = Files.newBufferedReader(Paths.get("MovieInfo.json"));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public MovieInfo[] readJson(String path) throws IOException {
+        Reader reader = Files.newBufferedReader(Paths.get(path));
         return gson.fromJson(reader, MovieInfo[].class);
     }
 
@@ -41,8 +37,8 @@ public class MovieService {
     }
 
     @Transactional
-    public void saveMovie() {
-        MovieInfo[] movieInfos = readJson();
+    public void saveMovie(String path) throws IOException {
+        MovieInfo[] movieInfos = readJson(path);
         for (MovieInfo movieInfo : movieInfos) {
             Movie movie = movieRepository.save(movieInfo.toEntity());
             List<Long> idList = movieInfo.getMovieGenres();

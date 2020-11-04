@@ -31,6 +31,7 @@ class MovieTest {
         assertThat(movie.getRunningTime()).isEqualTo(runningTime);
         assertThat(movie.getOpeningDate()).isEqualTo(localDate);
         assertThat(movie.getImageUrl()).isEqualTo(imageUrl);
+        assertThat(movie.getMovieGenres()).isEmpty();
     }
 
 }
