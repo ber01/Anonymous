@@ -18,6 +18,7 @@ class GenreTest {
 
         assertThat(genre.getIdx()).isEqualTo(1L);
         assertThat(genre.getName()).isEqualTo(name);
+        assertThat(genre.getMovieGenres()).isEmpty();
     }
 
 }
