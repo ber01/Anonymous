@@ -26,6 +26,9 @@ public class JwtTokenProvider {
     @Value("${secret-key")
     private String secretKey;
 
+    private static final String AUTHORIZATION = "Authorization";
+    private static final long TOKEN_EXPIRE_TIME = 60 * 60 * 1000L;
+
     private final UserDetailsService userDetailsService;
 
     @PostConstruct
@@ -42,7 +45,7 @@ public class JwtTokenProvider {
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(now)
-                .setExpiration(new Date(now.getTime() + (30 * 60 * 1000L)))
+                .setExpiration(new Date(now.getTime() + TOKEN_EXPIRE_TIME))
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
     }
@@ -57,7 +60,7 @@ public class JwtTokenProvider {
     }
 
     public String resolveToken(HttpServletRequest request) {
-        return request.getHeader("Authorization");
+        return request.getHeader(AUTHORIZATION);
     }
 
     public boolean validateToken(String token) {
