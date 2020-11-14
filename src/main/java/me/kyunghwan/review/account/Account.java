@@ -7,12 +7,13 @@ import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Getter
 @Entity
-public class Account {
+public class Account extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ACCOUNT_ID")

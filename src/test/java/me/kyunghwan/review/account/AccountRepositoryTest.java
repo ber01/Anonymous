@@ -7,6 +7,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -39,6 +40,20 @@ class AccountRepositoryTest extends BaseControllerTest {
             assertThat(genre.getAccount().getEmail()).isEqualTo(email);
         }
         assertThat(genres.size()).isNotNull();
+    }
+
+    @DisplayName("BaseTimeEntity 테스트")
+    @Test
+    void test() {
+        Account account = accountRepository.save(Account.builder()
+                .email(email)
+                .password(password)
+                .loginType(LoginType.CREDENTIAL)
+                .isVerified(false)
+                .build());
+
+        assertThat(account.getCreatedAt()).isBefore(LocalDateTime.now());
+        assertThat(account.getUpdatedAt()).isBefore(LocalDateTime.now());
     }
 
 }
