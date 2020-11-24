@@ -1,10 +1,16 @@
 package me.kyunghwan.review.account.dto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import me.kyunghwan.review.account.Account;
 import me.kyunghwan.review.account.LoginType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,8 +20,10 @@ import java.util.List;
 @Getter
 public class AccountRequestDto {
 
+    @Email @NotBlank
     private String email;
 
+    @Pattern(regexp = "(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,16}") @NotBlank
     private String password;
 
     private List<String> myGenres = new ArrayList<>();
