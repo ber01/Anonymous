@@ -26,6 +26,7 @@ public class AccountRequestDto {
     @Pattern(regexp = "(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,16}") @NotBlank
     private String password;
 
+    @Builder.Default
     private List<String> myGenres = new ArrayList<>();
 
     public Account toEntity(PasswordEncoder passwordEncoder) {

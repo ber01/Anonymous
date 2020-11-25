@@ -11,6 +11,7 @@ import me.kyunghwan.review.mygenre.MyGenreRepository;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -22,6 +23,7 @@ public class AccountService {
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
 
+    @Transactional
     public AccountResponseDto save(AccountRequestDto accountRequestDto) {
         Account account = accountRepository.save(accountRequestDto.toEntity(passwordEncoder));
         for (String name : accountRequestDto.getMyGenres()) {

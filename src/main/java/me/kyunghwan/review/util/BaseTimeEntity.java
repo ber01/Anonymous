@@ -1,4 +1,4 @@
-package me.kyunghwan.review.account;
+package me.kyunghwan.review.util;
 
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;

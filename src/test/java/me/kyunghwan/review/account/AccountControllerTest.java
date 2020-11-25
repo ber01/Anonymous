@@ -1,7 +1,6 @@
 package me.kyunghwan.review.account;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sun.tools.javac.util.List;
 import me.kyunghwan.review.BaseControllerTest;
 import me.kyunghwan.review.account.dto.AccountRequestDto;
 import org.junit.jupiter.api.DisplayName;
@@ -12,6 +11,8 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.stream.Stream;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -29,7 +30,7 @@ class AccountControllerTest extends BaseControllerTest {
         AccountRequestDto requestDto = AccountRequestDto.builder()
                 .email(email)
                 .password(password)
-                .myGenres(List.of("SF", "느와르"))
+                .myGenres(new ArrayList<>(Arrays.asList("SF", "느와르")))
                 .build();
 
         mockMvc.perform(post("/api/accounts")
@@ -39,14 +40,14 @@ class AccountControllerTest extends BaseControllerTest {
         ;
     }
 
-    @DisplayName("POST /api/accounts 400")
+    @DisplayName("POST /api/accounts 400 - 이메일, 비밀번호 형식 오류")
     @ParameterizedTest(name = "#{index} : {2}")
     @MethodSource("params")
     void test1(String paramEmail, String paramPwd, String msg) throws Exception {
         AccountRequestDto requestDto = AccountRequestDto.builder()
                 .email(paramEmail)
                 .password(paramPwd)
-                .myGenres(List.of("SF", "느와르"))
+                .myGenres(new ArrayList<>(Arrays.asList("SF", "느와르")))
                 .build();
 
         mockMvc.perform(post("/api/accounts")
@@ -98,6 +99,42 @@ class AccountControllerTest extends BaseControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("access_token").exists())
         ;
+    }
+
+    @DisplayName("POST /api/accounts/login 400")
+    @Test
+    void test3() throws Exception {
+        AccountRequestDto requestDto = AccountRequestDto.builder()
+                .email(email)
+                .password(password)
+                .build();
+
+        mockMvc.perform(post("/api/accounts/login")
+                    .content(objectMapper.writeValueAsString(requestDto))
+                    .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isBadRequest())
+        ;
+    }
+
+    @DisplayName("POST /api/accounts 400 - 존재하는 이메일")
+    @Test
+    void test4() throws Exception {
+        accountRepository.save(Account.builder()
+                .email(email)
+                .password(password)
+                .loginType(LoginType.CREDENTIAL)
+                .isVerified(false)
+                .build());
+
+        AccountRequestDto requestDto = AccountRequestDto.builder()
+                .email(email)
+                .password(password)
+                .build();
+
+        mockMvc.perform(post("/api/accounts")
+                    .content(objectMapper.writeValueAsString(requestDto))
+                    .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isBadRequest());
     }
 
 }

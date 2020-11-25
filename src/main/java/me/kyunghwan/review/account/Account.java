@@ -2,6 +2,7 @@ package me.kyunghwan.review.account;
 
 import lombok.*;
 import me.kyunghwan.review.mygenre.MyGenre;
+import me.kyunghwan.review.util.BaseTimeEntity;
 
 import javax.persistence.*;
 import java.util.HashSet;

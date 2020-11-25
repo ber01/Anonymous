@@ -1,6 +1,5 @@
 package me.kyunghwan.review.account.dto;
 
-import com.sun.tools.javac.util.List;
 import me.kyunghwan.review.BaseControllerTest;
 import me.kyunghwan.review.account.Account;
 import me.kyunghwan.review.account.LoginType;
@@ -8,6 +7,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -27,7 +28,7 @@ class AccountRequestDtoTest extends BaseControllerTest {
         return AccountRequestDto.builder()
                     .email(email)
                     .password(password)
-                    .myGenres(List.of("SF", "느와르"))
+                    .myGenres(new ArrayList<>(Arrays.asList("SF", "느와르")))
                     .build();
     }
 

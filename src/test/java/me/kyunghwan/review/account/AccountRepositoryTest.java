@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import javax.transaction.Transactional;
-import java.time.LocalDateTime;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -53,8 +52,8 @@ class AccountRepositoryTest extends BaseControllerTest {
                 .isVerified(false)
                 .build());
 
-        assertThat(account.getCreatedAt()).isBefore(LocalDateTime.now());
-        assertThat(account.getUpdatedAt()).isBefore(LocalDateTime.now());
+        assertThat(account.getCreatedAt()).isNotNull();
+        assertThat(account.getUpdatedAt()).isNotNull();
     }
 
 }
