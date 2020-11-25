@@ -35,4 +35,14 @@ public class AccountController {
         return ResponseEntity.created(self.toUri()).body(entityModel);
     }
 
+    @PostMapping("/login")
+    public ResponseEntity<?> postLogin(@Valid @RequestBody AccountRequestDto accountRequestDto, Errors errors) {
+        if (errors.hasErrors()) {
+            return ResponseEntity.badRequest().body("{\"message\" : \"아이디 혹은 비밀번호를 확인하세요.\"}");
+        }
+
+        String jwtToken = accountService.createToken(accountRequestDto);
+        return ResponseEntity.ok("{\"access_token\" : " + "\"Bearer " + jwtToken + "\"}");
+    }
+
 }

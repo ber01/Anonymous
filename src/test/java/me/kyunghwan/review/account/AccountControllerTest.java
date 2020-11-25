@@ -15,6 +15,7 @@ import org.springframework.http.MediaType;
 import java.util.stream.Stream;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 class AccountControllerTest extends BaseControllerTest {
@@ -74,6 +75,29 @@ class AccountControllerTest extends BaseControllerTest {
                 Arguments.of(email, "aaaaAAAAAA", "비밀번호 형식 오류 - 숫자 X, 특수문자 X"),
                 Arguments.of(email, "1234123412", "비밀번호 형식 오류 - 대소문자 X, 특수문자 X")
         );
+    }
+
+    @DisplayName("POST /api/accounts/login 200")
+    @Test
+    void test2() throws Exception {
+        accountRepository.save(Account.builder()
+                .email(email)
+                .password(password)
+                .loginType(LoginType.CREDENTIAL)
+                .isVerified(false)
+                .build());
+
+        AccountRequestDto requestDto = AccountRequestDto.builder()
+                .email(email)
+                .password(password)
+                .build();
+
+        mockMvc.perform(post("/api/accounts/login")
+                    .content(objectMapper.writeValueAsString(requestDto))
+                    .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("access_token").exists())
+        ;
     }
 
 }

@@ -3,10 +3,12 @@ package me.kyunghwan.review.account;
 import lombok.RequiredArgsConstructor;
 import me.kyunghwan.review.account.dto.AccountRequestDto;
 import me.kyunghwan.review.account.dto.AccountResponseDto;
+import me.kyunghwan.review.jwt.JwtTokenProvider;
 import me.kyunghwan.review.movie.Genre;
 import me.kyunghwan.review.movie.GenreRepository;
 import me.kyunghwan.review.mygenre.MyGenre;
 import me.kyunghwan.review.mygenre.MyGenreRepository;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +20,7 @@ public class AccountService {
     private final GenreRepository genreRepository;
     private final MyGenreRepository myGenreRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtTokenProvider jwtTokenProvider;
 
     public AccountResponseDto save(AccountRequestDto accountRequestDto) {
         Account account = accountRepository.save(accountRequestDto.toEntity(passwordEncoder));
@@ -31,4 +34,12 @@ public class AccountService {
         return new AccountResponseDto(account);
     }
 
+    public String createToken (AccountRequestDto accountRequestDto) {
+        String email = accountRequestDto.getEmail();
+        Account account = accountRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException(email));
+        AccountAdapter accountAdapter = new AccountAdapter(account);
+
+        String jwtToken = jwtTokenProvider.createToken(accountAdapter.getUsername(), accountAdapter.getAuthorities());
+        return jwtToken;
+    }
 }

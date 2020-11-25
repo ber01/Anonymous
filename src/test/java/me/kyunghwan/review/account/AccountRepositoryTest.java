@@ -5,6 +5,7 @@ import me.kyunghwan.review.movie.Genre;
 import me.kyunghwan.review.mygenre.MyGenre;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
@@ -34,7 +35,7 @@ class AccountRepositoryTest extends BaseControllerTest {
                     .build()));
         }
 
-        account = accountRepository.findByEmail(email);
+        account = accountRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("error"));
         Set<MyGenre> genres = account.getMyGenres();
         for (MyGenre genre : genres) {
             assertThat(genre.getAccount().getEmail()).isEqualTo(email);
