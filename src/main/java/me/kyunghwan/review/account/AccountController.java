@@ -51,7 +51,7 @@ public class AccountController {
 
     @ExceptionHandler(UsernameNotFoundException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<?> exceptionHandelr() {
+    public ResponseEntity<?> exceptionHandler() {
         return badRequest();
     }
 

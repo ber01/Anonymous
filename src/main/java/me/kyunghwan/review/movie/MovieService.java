@@ -3,6 +3,7 @@ package me.kyunghwan.review.movie;
 import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
 import me.kyunghwan.review.movie.dto.MovieInfo;
+import me.kyunghwan.review.movie.dto.MovieResponseDto;
 import me.kyunghwan.review.moviegenre.MovieGenre;
 import me.kyunghwan.review.moviegenre.MovieGenreRepository;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -13,6 +14,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -49,6 +51,16 @@ public class MovieService {
                 genre.add(movieGenre);
             }
         }
+    }
+
+    public String findMovieList() {
+        List<Movie> movieList = movieRepository.findAll();
+        List<MovieResponseDto> movieResponseDtoList = new ArrayList<>();
+        for (Movie movie : movieList) {
+            MovieResponseDto movieResponseDto = new MovieResponseDto(movie);
+            movieResponseDtoList.add(movieResponseDto);
+        }
+        return gson.toJson(movieResponseDtoList);
     }
 
     /*
