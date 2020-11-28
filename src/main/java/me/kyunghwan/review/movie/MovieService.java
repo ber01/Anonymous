@@ -1,6 +1,7 @@
 package me.kyunghwan.review.movie;
 
 import com.google.gson.Gson;
+import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import me.kyunghwan.review.movie.dto.MovieInfo;
 import me.kyunghwan.review.movie.dto.MovieResponseDto;
@@ -61,6 +62,10 @@ public class MovieService {
             movieResponseDtoList.add(movieResponseDto);
         }
         return gson.toJson(movieResponseDtoList);
+    }
+
+    public Movie findMovie(Long idx) throws Exception {
+        return movieRepository.findById(idx).orElseThrow(() -> new NotFoundException(idx + ""));
     }
 
     /*
