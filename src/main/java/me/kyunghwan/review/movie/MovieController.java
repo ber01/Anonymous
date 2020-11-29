@@ -1,6 +1,7 @@
 package me.kyunghwan.review.movie;
 
 import lombok.RequiredArgsConstructor;
+import me.kyunghwan.review.exception.MovieNotFoundException;
 import me.kyunghwan.review.movie.dto.MovieResponseDto;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
@@ -25,7 +26,7 @@ public class MovieController {
     }
 
     @GetMapping("/{idx}")
-    public ResponseEntity<?> getMovie(@PathVariable Long idx) throws Exception {
+    public ResponseEntity<?> getMovie(@PathVariable Long idx) throws MovieNotFoundException {
         Movie movie = movieService.findMovie(idx);
 
         WebMvcLinkBuilder self = linkTo(MovieController.class).slash(movie.getIdx());

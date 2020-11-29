@@ -1,8 +1,8 @@
 package me.kyunghwan.review.movie;
 
 import com.google.gson.Gson;
-import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
+import me.kyunghwan.review.exception.MovieNotFoundException;
 import me.kyunghwan.review.movie.dto.MovieInfo;
 import me.kyunghwan.review.movie.dto.MovieResponseDto;
 import me.kyunghwan.review.moviegenre.MovieGenre;
@@ -64,8 +64,8 @@ public class MovieService {
         return gson.toJson(movieResponseDtoList);
     }
 
-    public Movie findMovie(Long idx) throws Exception {
-        return movieRepository.findById(idx).orElseThrow(() -> new NotFoundException(idx + ""));
+    public Movie findMovie(Long idx) throws MovieNotFoundException {
+        return movieRepository.findById(idx).orElseThrow(() -> new MovieNotFoundException(idx + "번에 해당하는 영화가 존재하지 않습니다."));
     }
 
     /*
