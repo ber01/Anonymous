@@ -7,7 +7,6 @@ import me.kyunghwan.review.account.valid.AccountDtoValidator;
 import me.kyunghwan.review.util.JsonUtils;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.Errors;
@@ -50,7 +49,6 @@ public class AccountController {
     }
 
     @ExceptionHandler(UsernameNotFoundException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<?> exceptionHandler() {
         return badRequest();
     }

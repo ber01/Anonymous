@@ -2,12 +2,12 @@ package me.kyunghwan.review.movie;
 
 import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
+import me.kyunghwan.review.exception.GenreNotFoundException;
 import me.kyunghwan.review.exception.MovieNotFoundException;
 import me.kyunghwan.review.movie.dto.MovieInfo;
 import me.kyunghwan.review.movie.dto.MovieResponseDto;
 import me.kyunghwan.review.moviegenre.MovieGenre;
 import me.kyunghwan.review.moviegenre.MovieGenreRepository;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,13 +40,13 @@ public class MovieService {
     }
 
     @Transactional
-    public void saveMovie(String path) throws IOException {
+    public void saveMovie(String path) throws GenreNotFoundException, IOException {
         MovieInfo[] movieInfos = readJson(path);
         for (MovieInfo movieInfo : movieInfos) {
             Movie movie = movieRepository.save(movieInfo.toEntity());
             List<Long> idList = movieInfo.getMovieGenres();
             for (Long id : idList) {
-                Genre genre = genreRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException(""));
+                Genre genre = genreRepository.findById(id).orElseThrow(() -> new GenreNotFoundException(id + "번에 해당하는 장르가 없습니다."));
                 MovieGenre movieGenre = saveMovieGenre(movie, genre);
                 movie.add(movieGenre);
                 genre.add(movieGenre);

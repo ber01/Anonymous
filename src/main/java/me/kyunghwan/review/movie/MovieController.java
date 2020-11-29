@@ -3,13 +3,11 @@ package me.kyunghwan.review.movie;
 import lombok.RequiredArgsConstructor;
 import me.kyunghwan.review.exception.MovieNotFoundException;
 import me.kyunghwan.review.movie.dto.MovieResponseDto;
+import me.kyunghwan.review.util.JsonUtils;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
@@ -32,6 +30,15 @@ public class MovieController {
         WebMvcLinkBuilder self = linkTo(MovieController.class).slash(movie.getIdx());
         EntityModel<MovieResponseDto> entityModel = EntityModel.of(new MovieResponseDto(movie)).add(self.withSelfRel());
         return ResponseEntity.ok(entityModel);
+    }
+
+    @ExceptionHandler(MovieNotFoundException.class)
+    public ResponseEntity<?> exceptionHandler(MovieNotFoundException exception) {
+        return badRequest(exception.getMessage());
+    }
+
+    private ResponseEntity<?> badRequest(String message) {
+        return ResponseEntity.badRequest().body(JsonUtils.toJson("message", message));
     }
 
 }
