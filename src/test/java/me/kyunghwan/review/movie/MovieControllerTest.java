@@ -66,7 +66,8 @@ class MovieControllerTest {
         saveMovie();
 
         mockMvc.perform(get("/api/movies"))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+        ;
     }
 
     @DisplayName("하나의 영화를 조회하는 테스트")
@@ -99,7 +100,7 @@ class MovieControllerTest {
     @Test
     void test3() {
         genreRepository.deleteAll();
-        GenreNotFoundException genreNotFoundException = assertThrows(GenreNotFoundException.class, () -> saveMovie());
+        GenreNotFoundException genreNotFoundException = assertThrows(GenreNotFoundException.class, this::saveMovie);
         assertThat(genreNotFoundException.getMessage()).contains("장르");
     }
 

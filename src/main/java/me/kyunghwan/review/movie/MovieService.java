@@ -54,14 +54,14 @@ public class MovieService {
         }
     }
 
-    public String findMovieList() {
+    public List<MovieResponseDto> findMovieList() {
         List<Movie> movieList = movieRepository.findAll();
         List<MovieResponseDto> movieResponseDtoList = new ArrayList<>();
         for (Movie movie : movieList) {
             MovieResponseDto movieResponseDto = new MovieResponseDto(movie);
             movieResponseDtoList.add(movieResponseDto);
         }
-        return gson.toJson(movieResponseDtoList);
+        return movieResponseDtoList;
     }
 
     public Movie findMovie(Long idx) throws MovieNotFoundException {

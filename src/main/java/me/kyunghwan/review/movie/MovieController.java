@@ -9,6 +9,9 @@ import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
 @RequiredArgsConstructor
@@ -20,7 +23,14 @@ public class MovieController {
 
     @GetMapping
     public ResponseEntity<?> getMovies() {
-        return ResponseEntity.ok(movieService.findMovieList());
+        List<MovieResponseDto> movieList = movieService.findMovieList();
+
+        List<EntityModel<MovieResponseDto>> entityModelList = new ArrayList<>();
+        for (MovieResponseDto movieResponseDto : movieList) {
+            WebMvcLinkBuilder self = linkTo(MovieController.class).slash(movieResponseDto.getIdx());
+            entityModelList.add(EntityModel.of(movieResponseDto).add(self.withSelfRel()));
+        }
+        return ResponseEntity.ok(entityModelList);
     }
 
     @GetMapping("/{idx}")
